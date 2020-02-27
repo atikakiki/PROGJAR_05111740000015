@@ -6,7 +6,7 @@ SIZE = 8 * 1024
 # Create a TCP/IP socket
 sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 # Bind the socket to the port
-server_address = ('127.0.0.1', 31000)
+server_address = ('127.0.0.1', 30001)
 print(f"starting up on {server_address}")
 sock.bind(server_address)
 # Listen for incoming connections

@@ -28,7 +28,12 @@ def download_gambar(url=None):
     return
 
 url = ["https://cm1.narvii.com/7290/be7edfb04d351d9044d3ebd40e8acf8e3a648384_00.jpg","https://pbs.twimg.com/profile_images/1165237768324358144/-vyLKy9h_400x400.jpg","https://pbs.twimg.com/profile_images/1218915501427945478/kTd1IxoB.jpg"]
+threads = []
 
-for i in url:
-    t = threading.Thread(target=download_gambar,args=(i,))
-    t.start()
+if __name__=='__main__':
+    for i in url:
+        t = threading.Thread(target=download_gambar,args=(i,))
+        threads.append(t)
+        # logging.warning(f"url={i}")
+    for t in threads:
+        t.start()

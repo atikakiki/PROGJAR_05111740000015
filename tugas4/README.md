@@ -11,7 +11,7 @@
 <li>Upload File dijalankan (Server.py dan upload_cli.py)</li>
 <img src="https://github.com/atikakiki/PROGJAR_05111740000015/blob/master/tugas4/ss/upload_dijalankan.PNG"></img>
 <li>Setelah Upload File dijalankan</li>
-<img src="https://github.com/atikakiki/PROGJAR_05111740000015/blob/master/tugas4/ss/upload_sesudah_djalankan.PNG"></img>
+<img src="https://github.com/atikakiki/PROGJAR_05111740000015/blob/master/tugas4/ss/upload_sesudah_dijalankan.PNG"></img>
 
 <h5>2. Download File</h5>
 <li>Sebelum Download File dijalankan</li>
@@ -19,8 +19,8 @@
 <li>Download File dijalankan (Server.py dan download_cli.py)</li>
 <img src="https://github.com/atikakiki/PROGJAR_05111740000015/blob/master/tugas4/ss/download_dijalankan.PNG"></img>
 <li>Setelah Download File dijalankan</li>
-<img src="https://github.com/atikakiki/PROGJAR_05111740000015/blob/master/tugas4/ss/download_sesudah_djalankan.PNG"></img>
+<img src="https://github.com/atikakiki/PROGJAR_05111740000015/blob/master/tugas4/ss/download_sesudah_dijalankan.PNG"></img>
 
 <h5>3. Melihat isi folder File</h5>
 <li>list_cli.py dijalankan</li>
-<img src="https://github.com/atikakiki/PROGJAR_05111740000015/blob/master/tugas4/ss/lihat_isi_file.PNG"></img>
+<img src="https://github.com/atikakiki/PROGJAR_05111740000015/blob/master/tugas4/ss/lihat_list_file.PNG"></img>

@@ -54,6 +54,7 @@ class Server(threading.Thread):
 	
 
 def main():
+	print("Server sedang berjalan")
 	svr = Server()
 	svr.start()
 

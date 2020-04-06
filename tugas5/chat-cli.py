@@ -12,6 +12,7 @@ class ChatClient:
         self.server_address = (TARGET_IP,TARGET_PORT)
         self.sock.connect(self.server_address)
         self.tokenid=""
+    
     def proses(self,cmdline):
         j=cmdline.split(" ")
         try:
@@ -20,18 +21,29 @@ class ChatClient:
                 username=j[1].strip()
                 password=j[2].strip()
                 return self.login(username,password)
+            
             elif (command=='send'):
                 usernameto = j[1].strip()
                 message=""
                 for w in j[2:]:
                    message="{} {}" . format(message,w)
                 return self.sendmessage(usernameto,message)
+            
             elif (command=='inbox'):
                 return self.inbox()
+            
+            elif (command=='online'):
+                return self.online()
+            
+            elif (command=='logout'):
+                return self.logout()
+            
             else:
                 return "*Maaf, command tidak benar"
+       
         except IndexError:
                 return "-Maaf, command tidak benar"
+    
     def sendstring(self,string):
         try:
             self.sock.sendall(string.encode())
@@ -42,11 +54,12 @@ class ChatClient:
                 if (data):
                     receivemsg = "{}{}" . format(receivemsg,data.decode())  #data harus didecode agar dapat di operasikan dalam bentuk string
                     if receivemsg[-4:]=='\r\n\r\n':
-                        print("end of string")
+                        print("--end of string--")
                         return json.loads(receivemsg)
         except:
             self.sock.close()
             return { 'status' : 'ERROR', 'message' : 'Gagal'}
+    
     def login(self,username,password):
         string="auth {} {} \r\n" . format(username,password)
         result = self.sendstring(string)
@@ -55,6 +68,7 @@ class ChatClient:
             return "username {} logged in, token {} " .format(username,self.tokenid)
         else:
             return "Error, {}" . format(result['message'])
+    
     def sendmessage(self,usernameto="xxx",message="xxx"):
         if (self.tokenid==""):
             return "Error, not authorized"
@@ -65,6 +79,7 @@ class ChatClient:
             return "message sent to {}" . format(usernameto)
         else:
             return "Error, {}" . format(result['message'])
+    
     def inbox(self):
         if (self.tokenid==""):
             return "Error, not authorized"
@@ -74,8 +89,27 @@ class ChatClient:
             return "{}" . format(json.dumps(result['messages']))
         else:
             return "Error, {}" . format(result['message'])
-
-
+    
+    def online(self):
+        if (self.tokenid == ""):
+            return "Error, not authorized"
+        string = "online {} \r\n".format(self.tokenid)
+        res = self.sendstring(string)
+        if res['status']=='OK':
+            return "Online User: {}".format(json.dumps(res['messages']))
+        else:
+            return "Error, {}".format(res['message'])
+    
+    def logout(self):
+        if (self.tokenid == ""):
+            return "Error, not authorized"
+        string = "logout {} \r\n".format(self.tokenid)
+        res = self.sendstring(string)
+        if res['status']=='OK':
+            self.tokenid = ""
+            return "User telah logout"
+        else:
+            return "Error, {}".format(res['message'])
 
 if __name__=="__main__":
     cc = ChatClient()

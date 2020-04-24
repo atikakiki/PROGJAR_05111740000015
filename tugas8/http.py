@@ -3,6 +3,7 @@ import os.path
 import uuid
 from glob import glob
 from datetime import datetime
+import cgi, cgitb
 
 class HttpServer:
 	def __init__(self):
@@ -44,46 +45,47 @@ class HttpServer:
 			method=j[0].upper().strip()
 			if (method=='GET'):
 				object_address = j[1].strip()
+				print("ini addressnya "+object_address)
 				return self.http_get(object_address, all_headers)
 			if (method=='POST'):
 				object_address = j[1].strip()
-				return self.http_post(object_address, all_headers)
+				val = requests[-1].split("=")
+				return self.http_post(object_address, all_headers,val)
 			else:
-				return self.response(400,'Bad Request','',{})
+				return self.response(400,'Bad Request dalem','',{})
 		except IndexError:
 			return self.response(400,'Bad Request','',{})
 	def http_get(self,object_address,headers):
 		files = glob('./*')
-		thedir='.'
-		if thedir+object_address not in files:
-			return self.response(404,'Not Found','',{})
-		fp = open(thedir+object_address,'r')
+		if os.name == 'nt':
+			for n in files:
+				temp = [n.replace('\\','/') for n in files]
+				files = temp
+		file_loc = '.'+object_address
+		# print("ini loc"+loc)
+		if file_loc not in files:
+			return self.response(404, 'Not Found', '', {})
+		fp = open(file_loc,'r')
 		isi = fp.read()
-		
-		fext = os.path.splitext(thedir+object_address)[1]
-		content_type = self.types[fext]
-		
+	
 		headers={}
-		headers['Content-type']=content_type
+		headers['Content-type']="text/html"
 		
 		return self.response(200,'OK',isi,headers)
-	def http_post(self,object_address,headers):
-		headers ={}
-		isi = "kosong"
+	def http_post(self,object_address,headers,val):
+		h = headers
+		string = ""
+		for i in h:
+			string = string+'\n'+i
+		print("string = "+string)
+		isi = val[1]+"\n"+string
+		# isi = "kosong"
+		# headers={}
+		print(isi)
 		return self.response(200,'OK',isi,headers)
-		
-			 	
-#>>> import os.path
-#>>> ext = os.path.splitext('/ak/52.png')
 
 if __name__=="__main__":
 	httpserver = HttpServer()
-	d = httpserver.proses('GET testing.txt HTTP/1.0')
-	print(d)
-	d = httpserver.http_get('testing2.txt')
-	print(d)
-	d = httpserver.http_get('testing.txt')
-	print(d)
 
 
 
